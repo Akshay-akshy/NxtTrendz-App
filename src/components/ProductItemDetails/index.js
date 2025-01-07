@@ -1,12 +1,14 @@
-// Write your code here
 import {Component} from 'react'
 import {Link} from 'react-router-dom'
-import {Loader} from 'react-loader-spinner'
-import {BsDashSquare, BsPlusSquare} from 'react-icons/bs'
 import Cookies from 'js-cookie'
+import { TailSpin } from 'react-loader-spinner'
+import {BsPlusSquare, BsDashSquare} from 'react-icons/bs'
+
+import CartContext from '../../context/CartContext'
 
 import Header from '../Header'
 import SimilarProductItem from '../SimilarProductItem'
+
 import './index.css'
 
 const apiStatusConstants = {
@@ -18,14 +20,14 @@ const apiStatusConstants = {
 
 class ProductItemDetails extends Component {
   state = {
-    productsList: {},
-    quantity: 1,
+    productData: {},
     similarProductsData: [],
     apiStatus: apiStatusConstants.initial,
+    quantity: 1,
   }
 
   componentDidMount() {
-    this.getDetails()
+    this.getProductData()
   }
 
   getFormattedData = data => ({
@@ -40,19 +42,23 @@ class ProductItemDetails extends Component {
     totalReviews: data.total_reviews,
   })
 
-  getDetails = async () => {
+  getProductData = async () => {
     const {match} = this.props
     const {params} = match
     const {id} = params
+
+    this.setState({
+      apiStatus: apiStatusConstants.inProgress,
+    })
     const jwtToken = Cookies.get('jwt_token')
-    const option = {
-      method: 'GET',
+    const apiUrl = `https://apis.ccbp.in/products/${id}`
+    const options = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,
       },
+      method: 'GET',
     }
-    const response = await fetch(`https://apis.ccbp.in/products/${id}`, option)
-
+    const response = await fetch(apiUrl, options)
     if (response.ok) {
       const fetchedData = await response.json()
       const updatedData = this.getFormattedData(fetchedData)
@@ -60,7 +66,7 @@ class ProductItemDetails extends Component {
         eachSimilarProduct => this.getFormattedData(eachSimilarProduct),
       )
       this.setState({
-        productsList: updatedData,
+        productData: updatedData,
         similarProductsData: updatedSimilarProductsData,
         apiStatus: apiStatusConstants.success,
       })
@@ -72,102 +78,18 @@ class ProductItemDetails extends Component {
     }
   }
 
-  increment = () => {
-    this.setState(prevState => ({
-      quantity: prevState.quantity + 1,
-    }))
-  }
-
-  decrement = () => {
-    const {quantity} = this.state
-    if (quantity > 1) {
-      this.setState(prevState => ({
-        quantity: prevState.quantity - 1,
-      }))
-    }
-  }
-
-  rendersuccessDetails = () => {
-    const {similarProductsData, productsList} = this.state
-    const {
-      imageUrl,
-      title,
-      brand,
-      totalReviews,
-      rating,
-      availability,
-      price,
-      description,
-    } = productsList
-    const {quantity} = this.state
-    return (
-      <div className="success-container">
-        <div className="first-container">
-          <img src={imageUrl} className="src-image" alt="product" />
-          <div className="first-content">
-            <h1 className="first-heading">{title}</h1>
-            <p className="first-price">Rs {price}/- </p>
-            <div className="rating-holder">
-              <div className="rating">
-                <p className="para">{rating}</p>
-                <img
-                  src="https://assets.ccbp.in/frontend/react-js/star-img.png"
-                  className="star-img"
-                  alt="star"
-                />
-              </div>
-              <p className="review">{totalReviews} Reviews</p>
-            </div>
-            <p className="first-para">{description}</p>
-            <p className="review">
-              <span className="first-bold">Available: </span>
-              {availability}
-            </p>
-            <p className="review">
-              <span className="first-bold">Brand: </span>
-              {brand}
-            </p>
-            <hr />
-            <div className="quantity-holder">
-              <button
-                type="button"
-                className="btn"
-                data-testid="minus"
-                onClick={this.decrement}
-              >
-                <BsDashSquare className="btn-icons" />
-              </button>
-              <p className="number">{quantity}</p>
-              <button
-                type="button"
-                className="btn"
-                data-testid="plus"
-                onClick={this.increment}
-              >
-                <BsPlusSquare className="btn-icons" />
-              </button>
-            </div>
-            <button type="button" className="add-btn">
-              ADD TO CART
-            </button>
-          </div>
-        </div>
-        <h1 className="similar-heading">Similar Products</h1>
-        <ul className="similar-list">
-          {similarProductsData.map(eachItem => (
-            <SimilarProductItem key={eachItem.id} productDetails={eachItem} />
-          ))}
-        </ul>
-      </div>
-    )
-  }
+  renderLoadingView = () => (
+    <div className="products-details-loader-container" data-testid="loader">
+      <TailSpin type="ThreeDots" color="#0b69ff" height="50" width="50" />
+    </div>
+  )
 
   renderFailureView = () => (
-    <div className="product-details-failure-view-container">
+    <div className="product-details-error-view-container">
       <img
-        alt="failure view"
+        alt="error view"
         src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-error-view-img.png"
-        className="failure-view-image"
+        className="error-view-image"
       />
       <h1 className="product-not-found-heading">Product Not Found</h1>
       <Link to="/products">
@@ -178,10 +100,105 @@ class ProductItemDetails extends Component {
     </div>
   )
 
-  renderLoaderView = () => (
-    <div className="products-details-loader-container" data-testid="loader">
-      <Loader type="ThreeDots" color="#0b69ff" height="50" width="50" />
-    </div>
+  onDecrementQuantity = () => {
+    const {quantity} = this.state
+    if (quantity > 1) {
+      this.setState(prevState => ({quantity: prevState.quantity - 1}))
+    }
+  }
+
+  onIncrementQuantity = () => {
+    this.setState(prevState => ({quantity: prevState.quantity + 1}))
+  }
+
+  renderProductDetailsView = () => (
+    <CartContext.Consumer>
+      {value => {
+        const {productData, quantity, similarProductsData} = this.state
+        const {
+          availability,
+          brand,
+          description,
+          imageUrl,
+          price,
+          rating,
+          title,
+          totalReviews,
+        } = productData
+        const {addCartItem} = value
+        const onClickAddToCart = () => {
+          addCartItem({...productData, quantity})
+        }
+
+        return (
+          <div className="product-details-success-view">
+            <div className="product-details-container">
+              <img src={imageUrl} alt="product" className="product-image" />
+              <div className="product">
+                <h1 className="product-name">{title}</h1>
+                <p className="price-details">Rs {price}/-</p>
+                <div className="rating-and-reviews-count">
+                  <div className="rating-container">
+                    <p className="rating">{rating}</p>
+                    <img
+                      src="https://assets.ccbp.in/frontend/react-js/star-img.png"
+                      alt="star"
+                      className="star"
+                    />
+                  </div>
+                  <p className="reviews-count">{totalReviews} Reviews</p>
+                </div>
+                <p className="product-description">{description}</p>
+                <div className="label-value-container">
+                  <p className="label">Available:</p>
+                  <p className="value">{availability}</p>
+                </div>
+                <div className="label-value-container">
+                  <p className="label">Brand:</p>
+                  <p className="value">{brand}</p>
+                </div>
+                <hr className="horizontal-line" />
+                <div className="quantity-container">
+                  <button
+                    type="button"
+                    className="quantity-controller-button"
+                    onClick={this.onDecrementQuantity}
+                    data-testid="minus"
+                  >
+                    <BsDashSquare className="quantity-controller-icon" />
+                  </button>
+                  <p className="quantity">{quantity}</p>
+                  <button
+                    type="button"
+                    className="quantity-controller-button"
+                    onClick={this.onIncrementQuantity}
+                    data-testid="plus"
+                  >
+                    <BsPlusSquare className="quantity-controller-icon" />
+                  </button>
+                </div>
+                <button
+                  type="button"
+                  className="button add-to-cart-btn"
+                  onClick={onClickAddToCart}
+                >
+                  ADD TO CART
+                </button>
+              </div>
+            </div>
+            <h1 className="similar-products-heading">Similar Products</h1>
+            <ul className="similar-products-list">
+              {similarProductsData.map(eachSimilarProduct => (
+                <SimilarProductItem
+                  productDetails={eachSimilarProduct}
+                  key={eachSimilarProduct.id}
+                />
+              ))}
+            </ul>
+          </div>
+        )
+      }}
+    </CartContext.Consumer>
   )
 
   renderProductDetails = () => {
@@ -189,11 +206,11 @@ class ProductItemDetails extends Component {
 
     switch (apiStatus) {
       case apiStatusConstants.success:
-        return this.rendersuccessDetails()
+        return this.renderProductDetailsView()
       case apiStatusConstants.failure:
         return this.renderFailureView()
       case apiStatusConstants.inProgress:
-        return this.renderLoaderView()
+        return this.renderLoadingView()
       default:
         return null
     }

@@ -1,8 +1,9 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
-import Loader from 'react-loader-spinner'
+import {TailSpin} from 'react-loader-spinner'
 
 import ProductCard from '../ProductCard'
+
 import './index.css'
 
 const apiStatusConstants = {
@@ -59,7 +60,7 @@ class PrimeDealsSection extends Component {
     }
   }
 
-  renderPrimeDealsList = () => {
+  renderPrimeDealsListView = () => {
     const {primeDeals} = this.state
     return (
       <div>
@@ -76,14 +77,14 @@ class PrimeDealsSection extends Component {
   renderPrimeDealsFailureView = () => (
     <img
       src="https://assets.ccbp.in/frontend/react-js/exclusive-deals-banner-img.png"
-      alt="Register Prime"
-      className="register-prime-image"
+      alt="register prime"
+      className="register-prime-img"
     />
   )
 
   renderLoadingView = () => (
     <div className="primedeals-loader-container">
-      <Loader type="ThreeDots" color="#0b69ff" height="50" width="50" />
+      <TailSpin type="ThreeDots" color="#0b69ff" height="50" width="50" />
     </div>
   )
 
@@ -91,7 +92,7 @@ class PrimeDealsSection extends Component {
     const {apiStatus} = this.state
     switch (apiStatus) {
       case apiStatusConstants.success:
-        return this.renderPrimeDealsList()
+        return this.renderPrimeDealsListView()
       case apiStatusConstants.failure:
         return this.renderPrimeDealsFailureView()
       case apiStatusConstants.inProgress:

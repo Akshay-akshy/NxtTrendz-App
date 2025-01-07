@@ -1,5 +1,5 @@
 import {Component} from 'react'
-import Loader from 'react-loader-spinner'
+import {TailSpin} from 'react-loader-spinner'
 import Cookies from 'js-cookie'
 
 import FiltersGroup from '../FiltersGroup'
@@ -122,42 +122,17 @@ class AllProductsSection extends Component {
     }
   }
 
-  changeSortby = activeOptionId => {
-    this.setState({activeOptionId}, this.getProducts)
-  }
-
-  clearFilters = () => {
-    this.setState(
-      {
-        searchInput: '',
-        activeCategoryId: '',
-        activeRatingId: '',
-      },
-      this.getProducts,
-    )
-  }
-
-  changeRating = activeRatingId => {
-    this.setState({activeRatingId}, this.getProducts)
-  }
-
-  changeCategory = activeCategoryId => {
-    this.setState({activeCategoryId}, this.getProducts)
-  }
-
-  enterSearchInput = () => {
-    this.getProducts()
-  }
-
-  changeSearchInput = searchInput => {
-    this.setState({searchInput})
-  }
+  renderLoadingView = () => (
+    <div className="products-loader-container">
+      <TailSpin type="ThreeDots" color="#0b69ff" height="50" width="50" />
+    </div>
+  )
 
   renderFailureView = () => (
     <div className="products-error-view-container">
       <img
         src="https://assets.ccbp.in/frontend/react-js/nxt-trendz/nxt-trendz-products-error-view.png"
-        alt="products failure"
+        alt="all-products-error"
         className="products-failure-img"
       />
       <h1 className="product-failure-heading-text">
@@ -168,6 +143,10 @@ class AllProductsSection extends Component {
       </p>
     </div>
   )
+
+  changeSortby = activeOptionId => {
+    this.setState({activeOptionId}, this.getProducts)
+  }
 
   renderProductsListView = () => {
     const {productsList, activeOptionId} = this.state
@@ -201,12 +180,6 @@ class AllProductsSection extends Component {
     )
   }
 
-  renderLoadingView = () => (
-    <div className="products-loader-container">
-      <Loader type="ThreeDots" color="#0b69ff" height="50" width="50" />
-    </div>
-  )
-
   renderAllProducts = () => {
     const {apiStatus} = this.state
 
@@ -220,6 +193,33 @@ class AllProductsSection extends Component {
       default:
         return null
     }
+  }
+
+  clearFilters = () => {
+    this.setState(
+      {
+        searchInput: '',
+        activeCategoryId: '',
+        activeRatingId: '',
+      },
+      this.getProducts,
+    )
+  }
+
+  changeRating = activeRatingId => {
+    this.setState({activeRatingId}, this.getProducts)
+  }
+
+  changeCategory = activeCategoryId => {
+    this.setState({activeCategoryId}, this.getProducts)
+  }
+
+  enterSearchInput = () => {
+    this.getProducts()
+  }
+
+  changeSearchInput = searchInput => {
+    this.setState({searchInput})
   }
 
   render() {

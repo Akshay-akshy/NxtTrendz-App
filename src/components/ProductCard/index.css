@@ -1,8 +1,5 @@
-/* TODO: Add your CSS here */
-
 .product-item {
-  display: flex;
-  flex-direction: column;
+  list-style-type: none;
   margin-bottom: 48px;
   width: 350px;
   flex-grow: 0;
@@ -14,6 +11,12 @@
   .product-item {
     width: 300px;
   }
+}
+
+.link-item {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
 }
 
 .thumbnail {
@@ -50,7 +53,7 @@
   font-family: 'Roboto';
   font-size: 18px;
   font-weight: 700;
-  margin: 0;
+  margin: 0px;
 }
 
 .rating-container {
