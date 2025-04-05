@@ -8,7 +8,7 @@ An e-commerce web application inspired by platforms like Flipkart and Amazon. Bu
 Username: rahul
 Password: rahul@2021
 ```
-🖥️ Features
+🖥️ Features <br/>
 🔐 User Authentication with login and protected routes
 
 🏠 Home, 🛍️ Products, and 🛒 Cart pages
@@ -20,3 +20,9 @@ Password: rahul@2021
 🎯 Responsive design for all screen sizes
 
 ⚡ Clean UI with meaningful component structure
+
+🎨 Design Files <br/>
+<details> <summary>Click to view</summary>
+📱 Small Devices
+
+🖥️ Large Devices
