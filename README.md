@@ -31,11 +31,11 @@ Password: rahul@2021
 <details> <summary>Colors</summary><br/>
  ### 🎨 Color Palette
 
-| Color Name   | Hex Code  | Preview |
-|-------------|----------|---------|
-| Primary Blue | `#0b69ff` | ![#0b69ff](https://via.placeholder.com/20/0b69ff/000000?text=+) |
-| Dark Blue    | `#171f46` | ![#171f46](https://via.placeholder.com/20/171f46/000000?text=+) |
-| Gray         | `#616e7c` | ![#616e7c](https://via.placeholder.com/20/616e7c/000000?text=+) |
-| White        | `#ffffff` | ![#ffffff](https://via.placeholder.com/20/ffffff/000000?text=+) |
+| Color Name   | Hex Code  |
+|-------------|------------|
+| Primary Blue | `#0b69ff` |
+| Dark Blue    | `#171f46` | 
+| Gray         | `#616e7c` | 
+| White        | `#ffffff` | 
 
 
