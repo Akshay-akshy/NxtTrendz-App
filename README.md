@@ -32,6 +32,7 @@ Password: rahul@2021
 | Gray         | `#616e7c` | 
 | White        | `#ffffff` | 
 
+
 🎨 Design Files <br/>
 <details> <summary>Click to view</summary>
 - [Extra Small (Size < 576px), Small (Size >= 576px), and Medium (Size >= 768px)](https://assets.ccbp.in/frontend/content/react-js/nxt-trendz-authentication-sm-outputs.png) <br/>
