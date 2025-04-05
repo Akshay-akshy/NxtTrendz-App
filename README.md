@@ -23,6 +23,6 @@ Password: rahul@2021
 
 🎨 Design Files <br/>
 <details> <summary>Click to view</summary>
-📱 Small Devices
-
-🖥️ Large Devices
+Extra Small (Size < 576px), Small (Size >= 576px), and Medium (Size >= 768px)
+Large (Size >= 992px) and Extra Large (Size >= 1200px) - Login
+Medium (Size >= 768px), Large (Size >= 992px) and Extra Large (Size >= 1200px) - Home
