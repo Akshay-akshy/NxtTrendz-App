@@ -21,12 +21,6 @@ Password: rahul@2021
 
 ⚡ Clean UI with meaningful component structure
 
-🎨 Design Files <br/>
-<details> <summary>Click to view</summary>
-- [Extra Small (Size < 576px), Small (Size >= 576px), and Medium (Size >= 768px)](https://assets.ccbp.in/frontend/content/react-js/nxt-trendz-authentication-sm-outputs.png) <br/>
-- [Large (Size >= 992px) and Extra Large (Size >= 1200px) - Login](https://assets.ccbp.in/frontend/content/react-js/nxt-trendz-authentication-lg-login-output.png) <br/>
-- [Medium (Size >= 768px), Large (Size >= 992px) and Extra Large (Size >= 1200px) - Home](https://assets.ccbp.in/frontend/content/react-js/nxt-trendz-authentication-lg-home-output.png) <br/>
-
 🎨 UI Resources
 <details> <summary>Colors</summary><br/>
  ### 🎨 Color Palette
@@ -37,5 +31,13 @@ Password: rahul@2021
 | Dark Blue    | `#171f46` | 
 | Gray         | `#616e7c` | 
 | White        | `#ffffff` | 
+
+🎨 Design Files <br/>
+<details> <summary>Click to view</summary>
+- [Extra Small (Size < 576px), Small (Size >= 576px), and Medium (Size >= 768px)](https://assets.ccbp.in/frontend/content/react-js/nxt-trendz-authentication-sm-outputs.png) <br/>
+- [Large (Size >= 992px) and Extra Large (Size >= 1200px) - Login](https://assets.ccbp.in/frontend/content/react-js/nxt-trendz-authentication-lg-login-output.png) <br/>
+- [Medium (Size >= 768px), Large (Size >= 992px) and Extra Large (Size >= 1200px) - Home](https://assets.ccbp.in/frontend/content/react-js/nxt-trendz-authentication-lg-home-output.png) <br/>
+
+
 
 
